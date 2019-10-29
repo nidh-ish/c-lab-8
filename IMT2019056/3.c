@@ -1,66 +1,81 @@
-/* INPUT :TWO NUMBERS AND THE OPERATION WE REQUIRE TO DO
-   OUTPUT: VALUE OF THE RESULT WITH THE OPERATION PERFORMED
-*/
-
+/*Input:Two strings 
+ * Output:print the second string or 0 acording to the condition
+ * Remarks:If the second string is at the end of the first string:print second string
+ *        :else-print 0*/
 #include<stdio.h>
+#include<stdlib.h>
 
-float add(float a,float b) //declaring a function for adding
+/*function declared to measure the length of the strings*/
+int stringlen(char *t)
 {
- float result;
- result=(a)+(b);
- printf("%0.4f",result);
+	int count=0;
+	while(*t!='\0')
+	{
+	   t++;	
+           count++;
+	}
+	return count;
 }
 
-float sub(float a,float b) //declaring a function for subtracting
-{
- float result;
- result=(a)-(b);
- printf("%0.4f",result);
-}
+/*function declared to check if the second string exists at the end of first string*/
+int strend(char *s,char *t)
+{       /*length_string1:declared for measuring length of first string
+	  length_string2:declared for measuring length of second string*/
+        int length_string1=stringlen(s);
+	int length_string2=stringlen(t);
 
-float mul(float a,float b)  //declaring a function for multiplying
-{
- float result;
- result=(a)*(b);
- printf("%0.4f",result);
-}
+	/*changing the position of the pointer to a suitable poistion to start comparing*/
+        s=s+((length_string1-length_string2));
+        
+	/*while loop returns 1 if the string is at the end 
+	 *else returns 0*/
+	while(*s!='\0')
+	{
+		/*if an element does not match accordingly the while loop breaks and returns 0*/
+		if (*s!=*t)
+		{
+			return 0;
+			break;
+		}
 
-float div(float a,float b)  //declaring a function for dividing
-{
- float result;
- result=(a)/(b);
- printf("%0.4f",result);
+		/*else it continues comparing until the the string does not reach the end*/
+		else
+		{
+			s++;
+			t++;
+			return 1;
+	        }
+		
+	}
+
 }
 
 int main()
 {
-float a,b;
-char c; 
+    /* string1:pointer declared for storing string1
+     * string2:pointer declared for storing string2*/	
+    char *string1=malloc(sizeof(char)*256);
+    char *string2=malloc(sizeof(char)*256);
 
-scanf("%f %f %c",&a,&b,&c); //taking input of the two numbers
+    /*scanning the strings*/
+    scanf("%s %s",string1,string2);
 
-if(c=='+')
-{
-  float (*f)(float,float)=add; //initiallizing a function pointer
-          f(a,b); //calling the function using a pointer
-}
-else if(c=='-')
-{
-  float (*g)(float,float)=sub;//initiallizing a function pointer
-          g(a,b);//calling the function using a pointer
-}
-else if(c=='*')
-{
-  float (*h)(float,float)=mul;//initiallizing a function pointer
-          h(a,b);//calling the function using a pointer
-}
-else
-{
- float (*i)(float,float)=div;//initiallizing a function pointer
-          i(a,b);//calling the function using a pointer
-}
+    /*If strend returns 1-print the second string
+     *Else strend returns 0-print 0*/
+    int value=strend(string1,string2);
+    if (value==1)
+    {
+	    printf("%s",string2);
+    }
+    else
+    {
+	    printf("0");
+    }
 
-
+    /*freeing the memory space allocated previously*/
+    free(string1);
+    free(string2);
+  
+    return 0;
 }
-
 
