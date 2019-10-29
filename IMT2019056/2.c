@@ -1,60 +1,81 @@
-/* INPUT  :TWO STRINGS
-   OUTPUT :IF THE 1ST STRING HAS SAME END AS 2ND DOES PRINTS THE COMMON END PART AND PRINTS 0 IF DIFFERENT
-*/
-
+/*Input:Two strings 
+ * Output:print the second string or 0 acording to the condition
+ * Remarks:If the second string is at the end of the first string:print second string
+ *        :else-print 0*/
 #include<stdio.h>
 #include<stdlib.h>
 
-int strend(char *s,char *t)  //declaring a function
+/*function declared to measure the length of the strings*/
+int stringlen(char *t)
 {
-int l=0,m=0;
-for(int i=0;s[i]!='\0';i++) //using for loop for finding the count of string s length
-{
-l++;
+	int count=0;
+	while(*t!='\0')
+	{
+	   t++;	
+           count++;
+	}
+	return count;
 }
 
-for(int j=0; t[j]!='\0';j++)  //using the for loop fir finding the string t length
-{
- m++;
-}
+/*function declared to check if the second string exists at the end of first string*/
+int strend(char *s,char *t)
+{       /*length_string1:declared for measuring length of first string
+	  length_string2:declared for measuring length of second string*/
+        int length_string1=stringlen(s);
+	int length_string2=stringlen(t);
 
-int counter=l-m;  //taking the index from where to compare
+	/*changing the position of the pointer to a suitable poistion to start comparing*/
+        s=s+((length_string1-length_string2));
+        
+	/*while loop returns 1 if the string is at the end 
+	 *else returns 0*/
+	while(*s!='\0')
+	{
+		/*if an element does not match accordingly the while loop breaks and returns 0*/
+		if (*s!=*t)
+		{
+			return 0;
+			break;
+		}
 
-for(int k=0;s[k]!='\0';k++) //using a for loop
-{
-
-if(s[counter]!=t[k]) //comparing the ends of the strings
-
-   {  return 0;
-       break;}
- 
-else
-  {
-    return 1;
-    break;
-  }
-
-counter++;
-
-}
-
+		/*else it continues comparing until the the string does not reach the end*/
+		else
+		{
+			s++;
+			t++;
+			return 1;
+	        }
+		
+	}
 
 }
 
 int main()
 {
-int result;
-char *s=(char*)malloc(257*sizeof(char));  //dynamically allocating memory for string s
-char *t=(char*)malloc(257*sizeof(char));  //dynamically allocating memory for string t
+    /* string1:pointer declared for storing string1
+     * string2:pointer declared for storing string2*/	
+    char *string1=malloc(sizeof(char)*256);
+    char *string2=malloc(sizeof(char)*256);
 
-scanf("%s %s",s,t);
+    /*scanning the strings*/
+    scanf("%s %s",string1,string2);
 
-result=strend(s,t); //storing in result
+    /*If strend returns 1-print the second string
+     *Else strend returns 0-print 0*/
+    int value=strend(string1,string2);
+    if (value==1)
+    {
+	    printf("%s",string2);
+    }
+    else
+    {
+	    printf("0");
+    }
 
-if(result==1)
- printf("%s",t); // printing the string if result is 1
-
-else
- printf("0");  //printing 0
-
+    /*freeing the memory space allocated previously*/
+    free(string1);
+    free(string2);
+  
+    return 0;
 }
+
